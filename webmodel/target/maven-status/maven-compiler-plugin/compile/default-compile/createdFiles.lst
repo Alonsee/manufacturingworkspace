@@ -1,0 +1,16 @@
+com\myprojects\manufacturingworkspace\webmodel\controller\ExceptionHandlingController.class
+com\myprojects\manufacturingworkspace\webmodel\repository\UserRepository.class
+com\myprojects\manufacturingworkspace\webmodel\entities\User.class
+com\myprojects\manufacturingworkspace\webmodel\exceptions\EditingRecordException.class
+com\myprojects\manufacturingworkspace\webmodel\services\UserService.class
+com\myprojects\manufacturingworkspace\webmodel\controller\ExecutedWorkController.class
+com\myprojects\manufacturingworkspace\webmodel\config\ApplicationInitializer.class
+com\myprojects\manufacturingworkspace\webmodel\controller\IndexController.class
+com\myprojects\manufacturingworkspace\webmodel\services\UserServiceImpl.class
+com\myprojects\manufacturingworkspace\webmodel\websecurityconfig\WebSecurityConfig.class
+com\myprojects\manufacturingworkspace\webmodel\config\BeanConfig$1.class
+com\myprojects\manufacturingworkspace\webmodel\config\BeanConfig.class
+com\myprojects\manufacturingworkspace\webmodel\services\UserDetailsServiceImpl.class
+com\myprojects\manufacturingworkspace\webmodel\config\Application.class
+com\myprojects\manufacturingworkspace\webmodel\config\MvcConfig.class
+com\myprojects\manufacturingworkspace\webmodel\repository\UserRepositoryImpl.class

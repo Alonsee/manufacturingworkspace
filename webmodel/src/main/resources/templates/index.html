@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+		xmlns:th="https://www.thymeleaf.org" 
+		xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Manufacturing Workspase</title>	
+	<div th:replace="fragments/header :: header-css"/>	
+</head>
+
+<body>
+	<div th:replace="fragments/header :: header"/>
+
+	<div class='container'>
+		
+		<div class="row align-items-start">
+			<div class="col-lg-2">
+			</div>
+			<div class="col-lg-8">
+				<p>Welcome to Manufacturing Workspase</p>
+			</div>
+		</div>
+	
+	</div>
+		
+	<div th:replace="fragments/footer :: footer"/>
+</body>
+
+</html>
