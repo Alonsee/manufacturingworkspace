@@ -19,6 +19,7 @@ public class MvcConfig implements WebMvcConfigurer{
 	@Autowired
 	EmployeeConverter EmployeeConverter;
 
+	//path for css and js source
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		 		registry.addResourceHandler("/**")
@@ -30,10 +31,11 @@ public class MvcConfig implements WebMvcConfigurer{
 		registry.addViewController("/login").setViewName("login");
 	}
 	
-     @Override
-     public void addFormatters(FormatterRegistry registry) {
-    	 registry.addConverter(EmployeeConverter);
-    	 registry.addConverter(LocationConverter); 
-     }
+	//add converters for employees and locations
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+    	registry.addConverter(EmployeeConverter);
+    	registry.addConverter(LocationConverter); 
+    }
 
 }

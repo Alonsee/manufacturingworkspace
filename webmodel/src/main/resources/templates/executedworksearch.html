@@ -16,6 +16,7 @@
 	<div class='container'>
 		
 		<div class="row align-items-start">
+			<!-- sidebar for executed work navigation-->
 			<div class="col-lg-2">
 				<nav class="navbar navbar-expand-lg navbar-light bg-light">
   					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +40,15 @@
 			
 			<div class="col-lg-7 content">
 
+			<div th:if="(${executedwork}==null)">
+				<h4>Поиск ведется по:</h4>
+				<ul>
+					<li>Участку и датам</li>
+					<li>Работнику и датам</li>
+					<li>Названию</li>
+					<li>Обозначению</li>
+				</ul>
+			</div>
 			<form th:action="@{'/executedworksearchwithparams'}" method="get" 
 					th:if="(${executedwork}==null)">
 					<div class='form-group row'>
@@ -52,6 +62,7 @@
 					<div class='form-group row'>
 						<label class='col-sm-2 col-form-label'>Участок</label>				
 						<select class="form-control" name="locationid">
+								<option th:value="null"></option>
 								<option 
 								th:each="location: ${locations}"
 								th:value="${location.location_id}" 
@@ -62,6 +73,7 @@
 					<div class='form-group row'>
 						<label class='col-sm-2 col-form-label'>Работник</label>				
 						<select class="form-control" name="employeeid">
+								<option th:value="null"></option>
 								<option 
 								th:each="employee: ${employees}"
 								th:value="${employee.employee_id}" 
@@ -69,15 +81,15 @@
 								</option>
 						</select>
 					</div>							
-			<!-- 		<div class='form-group row'>
+			 		<div class='form-group row'>
 						<label for='datestart' class='col-sm-2 col-form-label'>Запуск</label>
-						<input type='datetime-local'  class='form-control' id='datestart' name="searchstart">
+						<input type='date'  class='form-control' name="searchstart">
 					</div>
 					<div class='form-group row'>
 						<label for='datefinish' class='col-sm-2 col-form-label'>Окончание</label>
-						<input type='datetime-local'  class='form-control' id='datefinish' name="searchfinish">
+						<input type='date'  class='form-control' name="searchfinish">
 					</div>
-			-->		
+	
 					<button type="submit" class="btn btn-primary searchbtn">Найти</button>
 			</form>
 

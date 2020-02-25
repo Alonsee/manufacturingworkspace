@@ -1,4 +1,3 @@
-com\myprojects\manufacturingworkspace\executedwork\config\ConverterConfig.class
 com\myprojects\manufacturingworkspace\executedwork\services\ExecutedWorkService.class
 com\myprojects\manufacturingworkspace\executedwork\entities\EmployeeConverter.class
 com\myprojects\manufacturingworkspace\executedwork\entities\ExecutedWork.class
@@ -7,6 +6,7 @@ com\myprojects\manufacturingworkspace\executedwork\services\EmployeeService.clas
 com\myprojects\manufacturingworkspace\executedwork\services\EmployeeServiceImpl.class
 com\myprojects\manufacturingworkspace\executedwork\repository\ExecutedWorkRepositoryImpl.class
 com\myprojects\manufacturingworkspace\executedwork\repository\EmployeeRepositoryImpl.class
+com\myprojects\manufacturingworkspace\executedwork\config\AppConfig.class
 com\myprojects\manufacturingworkspace\executedwork\entities\LocationConverter.class
 com\myprojects\manufacturingworkspace\executedwork\repository\LocationRepository.class
 com\myprojects\manufacturingworkspace\executedwork\services\LocationService.class

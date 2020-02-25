@@ -2,21 +2,23 @@ package com.myprojects.manufacturingworkspace.executedwork.repository;
 
 import java.util.GregorianCalendar;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
+import com.myprojects.manufacturingworkspace.executedwork.entities.Employee;
 import com.myprojects.manufacturingworkspace.executedwork.entities.ExecutedWork;
+import com.myprojects.manufacturingworkspace.executedwork.entities.Location;
 
-@Component
 public class ExecutedWorkRepositoryImpl implements ExecutedWorkRepository {
 
-	@Autowired
 	SessionFactory sessionFactory;
+	
+	public ExecutedWorkRepositoryImpl(SessionFactory sessionFactory) {
+		this.sessionFactory=sessionFactory;
+	}
+	public ExecutedWorkRepositoryImpl() {};
 	
 	@Override
 	public void createExecutedWork(ExecutedWork executedwork) {
@@ -43,34 +45,34 @@ public class ExecutedWorkRepositoryImpl implements ExecutedWorkRepository {
 		tr.commit();
 		session.close();
 	}
-
+	@Override
 	public List<ExecutedWork> findByEmployeeId(int id) {
 		Session session=sessionFactory.openSession();
 		@SuppressWarnings("rawtypes")
-		org.hibernate.query.Query query=session.createQuery("from ExecutedWork where employee_id=:employeeid")
+		org.hibernate.query.Query query=session.createQuery("from ExecutedWork where employee=:employeeid")
 				.setParameter("employeeid", String.valueOf(id));
 		@SuppressWarnings("unchecked")
 		List<ExecutedWork> ew=(List<ExecutedWork>) query.getResultList();
 		session.close();
 		return ew;
 	}
-	
+	@Override
 	public List<ExecutedWork> findByLocationId(int id) {
 		Session session=sessionFactory.openSession();
 		@SuppressWarnings("rawtypes")
-		org.hibernate.query.Query query=session.createQuery("from ExecutedWork where location_id=:location")
+		org.hibernate.query.Query query=session.createQuery("from ExecutedWork where location=:location")
 				.setParameter("location", String.valueOf(id));
 		@SuppressWarnings("unchecked")
 		List<ExecutedWork> ew=(List<ExecutedWork>) query.getResultList();
 		session.close();
 		return ew;
 	}
-	
-	public List<ExecutedWork> findByLocationIdAndTime(int id, GregorianCalendar datestart, GregorianCalendar datefinish) {
+	@Override
+	public List<ExecutedWork> findByLocationIdAndTime(Location location, GregorianCalendar datestart, GregorianCalendar datefinish) {
 		Session session=sessionFactory.openSession();
 		@SuppressWarnings("rawtypes")
-		org.hibernate.query.Query query=session.createQuery("from ExecutedWork where location_id=:location and datestart>=:datestart and datefinish<=:datefinish")
-				.setParameter("location", String.valueOf(id))
+		org.hibernate.query.Query query=session.createQuery("from ExecutedWork where location=:location and datestart>=:datestart and datefinish<=:datefinish")
+				.setParameter("location", location)
 				.setParameter("datestart",datestart)
 				.setParameter("datefinish",datefinish);
 		@SuppressWarnings("unchecked")
@@ -78,12 +80,12 @@ public class ExecutedWorkRepositoryImpl implements ExecutedWorkRepository {
 		session.close();
 		return ew;
 	}
-	
-	public List<ExecutedWork> findByEmployeeIdAndTime(int id, GregorianCalendar datestart, GregorianCalendar datefinish) {
+	@Override
+	public List<ExecutedWork> findByEmployeeIdAndTime(Employee employee, GregorianCalendar datestart, GregorianCalendar datefinish) {
 		Session session=sessionFactory.openSession();
 		@SuppressWarnings("rawtypes")
-		org.hibernate.query.Query query=session.createQuery("from ExecutedWork where employee_id=:employee and datestart>=:datestart and datefinish<=:datefinish")
-				.setParameter("employee", String.valueOf(id))
+		org.hibernate.query.Query query=session.createQuery("from ExecutedWork where employee=:employee and datestart>=:datestart and datefinish<=:datefinish")
+				.setParameter("employee", employee)
 				.setParameter("datestart",datestart)
 				.setParameter("datefinish",datefinish);
 		@SuppressWarnings("unchecked")
@@ -91,7 +93,7 @@ public class ExecutedWorkRepositoryImpl implements ExecutedWorkRepository {
 		session.close();
 		return ew;
 	}
-	
+	@Override
 	public List<ExecutedWork> selectAll() {
 		Session session=sessionFactory.openSession();
 		@SuppressWarnings("unchecked")
@@ -101,7 +103,7 @@ public class ExecutedWorkRepositoryImpl implements ExecutedWorkRepository {
 		session.close();
 		return ew;
 	}
-	
+	@Override
 	public ExecutedWork findById(int id) {
 		Session session=sessionFactory.openSession();
 		@SuppressWarnings("rawtypes")

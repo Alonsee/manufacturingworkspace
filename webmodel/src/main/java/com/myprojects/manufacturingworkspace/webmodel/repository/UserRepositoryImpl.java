@@ -4,11 +4,12 @@ package com.myprojects.manufacturingworkspace.webmodel.repository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Repository;
 
 import com.myprojects.manufacturingworkspace.webmodel.entities.User;
 
-@Component
+@Repository
 public class UserRepositoryImpl implements UserRepository{
 	
 	@Autowired
@@ -20,6 +21,7 @@ public class UserRepositoryImpl implements UserRepository{
 		@SuppressWarnings("rawtypes")
 		org.hibernate.query.Query query=session.createQuery("from User where username=:username")
 												.setParameter("username", username);
+		if(query.getResultList().isEmpty()) throw new UsernameNotFoundException("User not found.");
 		User user= (User) query.getResultList().get(0);
 		session.close();
 		return user;

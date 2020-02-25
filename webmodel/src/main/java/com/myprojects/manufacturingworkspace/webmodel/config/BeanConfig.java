@@ -26,6 +26,7 @@ public class BeanConfig {
     }
 	
 
+	//datasource mysql database
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
@@ -36,6 +37,7 @@ public class BeanConfig {
         return dataSource;
     }
 
+    //properties for hibernate
     @SuppressWarnings("serial")
 	Properties hibernateProperties() {
         return new Properties() {

@@ -1,8 +1,10 @@
 package com.myprojects.manufacturingworkspace.webmodel.controller;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -35,7 +37,7 @@ public class ExecutedWorkController {
 	
 	@GetMapping("/executedwork")
 	public String executedwork(Model model) {	
-
+		//show last 20 executed work records
 		List<ExecutedWork> executedwork=ExecutedWorkServiceImpl.selectAll();
     	model.addAttribute("executedwork", executedwork);
 		return "executedwork";
@@ -44,13 +46,21 @@ public class ExecutedWorkController {
 	@GetMapping("/executedworkcreate")
 	public String createexecutedwork(Model model) {
 
+		//add locations list for dinamic selection field
 		List<Location> locations=LocationServiceImpl.selectAll();
 		model.addAttribute("locations", locations);
 
+		//add employees list for dinamic selection field
 		List<Employee> employees=EmployeeServiceImpl.selectAll();
 		model.addAttribute("employees",employees);
 
-		model.addAttribute("ExecutedWork", new ExecutedWork());
+		ExecutedWork ew=new ExecutedWork();
+		//add current time to display in fields
+		//start and finish time for easy recording in the field
+		ew.setDatestart(new GregorianCalendar());
+		ew.setDatefinish(new GregorianCalendar());
+		//add executedwork object for the form
+		model.addAttribute("ExecutedWork", ew);
         return "executedworkcreate";
 	}
 	
@@ -59,15 +69,17 @@ public class ExecutedWorkController {
 			@ModelAttribute Location Location,
 			@ModelAttribute Employee Employee,
 			Model model) {
+		//entry in the fields converted location and employee onjects
 		executedwork.setLocation(Location);
 		executedwork.setEmployee(Employee);
 		
-		UserDetails loggeduser=(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		
-		executedwork.setCreated_by(userServiceImpl.searchUserByUsername(loggeduser.getUsername()).getId());
-		System.out.println(executedwork);
-		
-		if(executedwork.getId()==0)ExecutedWorkServiceImpl.createExecutedWork(executedwork);
+		//entry user, who created record
+		UserDetails loggeduser=(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();		
+			
+		if(executedwork.getId()==0) {
+			executedwork.setCreated_by(userServiceImpl.searchUserByUsername(loggeduser.getUsername()).getId());
+			ExecutedWorkServiceImpl.createExecutedWork(executedwork);
+		}
 		else ExecutedWorkServiceImpl.updateExecutedWork(executedwork);
 		
 		return new RedirectView("/executedwork");
@@ -76,27 +88,34 @@ public class ExecutedWorkController {
 	@PostMapping("/executedworkedit")
 	public String executedworkedit(@RequestParam int selectedExecutedWorkId, Model model) 
 			throws EditingRecordException {
+		
+		//search record by id
 		ExecutedWork selectedExecutedWork=ExecutedWorkServiceImpl.findById(selectedExecutedWorkId);
+		
+		//if another user created the record throws exception
 		if(userServiceImpl.searchUserByUsername(((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername()).getId()
 				!=selectedExecutedWork.getCreated_by()) 
 		{
 			throw new EditingRecordException("This record was created by another user");
 		}
+		
+		//add selected record into model
 		model.addAttribute("ExecutedWork", selectedExecutedWork);
 		
+		//add locations and employee list for dinamic selection fields
 		List<Location> locations=LocationServiceImpl.selectAll();
 		model.addAttribute("locations", locations);
 
 		List<Employee> employees=EmployeeServiceImpl.selectAll();
 		model.addAttribute("employees",employees);
 		
-		System.out.println(selectedExecutedWork);
 		return "executedworkedit";
 		}
 	
 	@GetMapping("/executedworksearch")
 	public String executedworksearch(Model model)
 		{
+		//add locations and employee list for dinamic selection fields in the search form
 		List<Location> locations=LocationServiceImpl.selectAll();
 		model.addAttribute("locations", locations);
 
@@ -111,12 +130,22 @@ public class ExecutedWorkController {
 									 @RequestParam(required=false) Integer locationid,
 									 @RequestParam(required=false) String title,
 									 @RequestParam(required=false) String designation,
-									 @RequestParam(required=false) GregorianCalendar searchstart,
-									 @RequestParam(required=false) GregorianCalendar searchfinish,
+									 @RequestParam @DateTimeFormat(pattern="yyyy-MM-d") Date searchstart,
+									 @RequestParam @DateTimeFormat(pattern="yyyy-MM-d") Date searchfinish,
 									 Model model)
 	{
+		GregorianCalendar sstart=new GregorianCalendar();
+		sstart.setTime(searchstart);
+		GregorianCalendar sfinish=new GregorianCalendar();
+		sfinish.setTime(searchstart);
+
+		Employee employee=null; 
+		Location location=null;
+		if (employeeid!=null) employee=EmployeeServiceImpl.findById(employeeid);
+		if(locationid!=null) location=LocationServiceImpl.findById(locationid);
+
 		model.addAttribute("executedwork", ExecutedWorkServiceImpl.searchByParams(title,
-							designation, employeeid, locationid, searchstart, searchfinish));
+							designation, employee, location, sstart, sfinish));
 		return "executedworksearch";
 	}
 }

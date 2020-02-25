@@ -2,6 +2,7 @@ package com.myprojects.manufacturingworkspace.webmodel.entities;
 
 import javax.persistence.*;
 
+//entity object for users
 @Entity
 @Table(name="users")
 public class User {
@@ -17,24 +18,31 @@ public class User {
 	public String getUsername() {
 		return username;
 	}
+	
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
 	public String getUserpassword() {
 		return userpassword;
 	}
+	
 	public void setPassword(String userpassword) {
 		this.userpassword = userpassword;
 	}
+	
 	public int getId() {
 		return id;
 	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
+	
 	public String getUserrole() {
 		return userrole;
 	}
+	
 	public void setUserrole(String userrole) {
 		this.userrole = userrole;
 	}

@@ -5,16 +5,17 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.myprojects.manufacturingworkspace.executedwork.entities.Location;
 
-@Component
 public class LocationRepositoryImpl implements LocationRepository {
 	
-	@Autowired
 	SessionFactory sessionFactory;
+	
+	public LocationRepositoryImpl(SessionFactory sessionFactory) {
+		this.sessionFactory=sessionFactory;
+	}
+	public LocationRepositoryImpl() {};
 	
 	@Override
 	public void createLocation(Location location) {
@@ -42,13 +43,14 @@ public class LocationRepositoryImpl implements LocationRepository {
 		session.close();
 		
 	}
-	
+	@Override
 	public Location findById(int id) {
 		Session session=sessionFactory.openSession();
 		Location loc=session.get(Location.class,id);
 		session.close();
 		return loc;
 	}
+	@Override
 	public List<Location> selectAll() {
 		Session session=sessionFactory.openSession();
 		@SuppressWarnings("unchecked")

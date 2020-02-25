@@ -38,8 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 			.logoutSuccessUrl("/index");
 	}
 
-	  @Autowired
-	    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-	        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());;
-	    }
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+	    auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());;
+	}
 }

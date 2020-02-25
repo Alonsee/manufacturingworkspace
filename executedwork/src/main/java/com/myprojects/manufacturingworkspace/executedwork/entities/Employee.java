@@ -3,9 +3,13 @@ import java.util.List;
 
 import javax.persistence.*;
 
+//entity object for employees
+//employees have firstname, lastname
+//and they are linked to the location
 @Entity
 @Table(name="employees")
 public class Employee {
+	
 	private String firstname;
 	private String lastname;
 	
@@ -21,48 +25,51 @@ public class Employee {
 	@JoinColumn(name="location_id", insertable = true, updatable = true)
 	private Location location;
 
-	public int getEmployee_id() {
-		return employee_id;
-	}
-	public void setEmployee_id(int employee_id) {
-		this.employee_id = employee_id;
-	}
 	public Employee() {}
+	
 	public Employee(String firstname,String lastname) {
 	this.firstname=firstname;
 	this.lastname=lastname;	
 	}
-
+	
+	public int getEmployee_id() {
+		return employee_id;
+	}
+	
+	public void setEmployee_id(int employee_id) {
+		this.employee_id = employee_id;
+	}
+	
 	public String getFirstname() {
-	return firstname;
+		return firstname;
 	}
 	
 	public void setFirstname(String firstname) {
-	this.firstname = firstname;
+		this.firstname = firstname;
 	}
 	
 	public String getLastname() {
-	return lastname;
+		return lastname;
 	}
 	
 	public void setLastname(String lastname) {
-	this.lastname = lastname;
+		this.lastname = lastname;
 	}
 	
 	public List<ExecutedWork> getExecutedwork() {
-	return executedwork;
+		return executedwork;
 	}
 	
 	public void setExecutedwork(List<ExecutedWork> executedwork) {
-	this.executedwork = executedwork;
+		this.executedwork = executedwork;
 	}
 	
 	public Location getLocation() {
-	return location;
+		return location;
 	}
 	
 	public void setLocation(Location location) {
-	this.location = location;
+		this.location = location;
 	}
 	
 	@Override

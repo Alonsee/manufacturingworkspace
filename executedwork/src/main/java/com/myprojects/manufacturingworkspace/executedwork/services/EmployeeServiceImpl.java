@@ -1,18 +1,16 @@
 package com.myprojects.manufacturingworkspace.executedwork.services;
 
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.myprojects.manufacturingworkspace.executedwork.entities.Employee;
 import com.myprojects.manufacturingworkspace.executedwork.repository.*;
 
-@Service
 public class EmployeeServiceImpl implements EmployeeService{
-	@Autowired
-	private EmployeeRepositoryImpl EmployeeRepositoryImpl;
+
+	private EmployeeRepository EmployeeRepositoryImpl;
 	
+	public EmployeeServiceImpl(EmployeeRepository employeeRepositoryImpl) {
+		this.EmployeeRepositoryImpl=employeeRepositoryImpl;
+	}
 	public EmployeeServiceImpl() {};
 	@Override
 	public void createEmployee(Employee employee) {

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+//entity objest for location
+//several people can work on one location
 @Entity
 @Table(name="locations")
 public class Location {
@@ -28,6 +30,7 @@ public class Location {
 	private List<ExecutedWork> executedwork;
 	
 	public Location() {};
+	
 	public Location(String name) {
 		this.name=name;
 	}
@@ -44,15 +47,19 @@ public class Location {
 	public List<Employee> getEmployees() {
 		return employees;
 	}
+	
 	public void setEmployees(List<Employee> employees) {
 		this.employees = employees;
 	}
+	
 	public List<ExecutedWork> getExecutedwork() {
 		return executedwork;
 	}
+	
 	public void setExecutedwork(List<ExecutedWork> executedwork) {
 		this.executedwork = executedwork;
 	}
+	
 	@Override
 	public String toString() {
 		return "location id: "+location_id+" location name: "+name;

@@ -7,6 +7,11 @@ import java.util.GregorianCalendar;
 import javax.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+//emtity object for completed work
+//they have title and designation, start and finish time,
+//count of details or assembly, execution time of one position
+//time for adjustment, and who completed it
+
 @Entity
 @Table(name="executedwork")
 public class ExecutedWork {

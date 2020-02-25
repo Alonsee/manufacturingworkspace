@@ -16,6 +16,7 @@
 	<div class='container'>	
 		
 		<div class="row align-items-start">
+		<!-- sidebar for executed work navigation-->
 			<div class="col-lg-2">
 				<nav class="navbar navbar-expand-lg navbar-light bg-light">
   					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +39,7 @@
 			</div>
 			
 			<div class="col-lg-7" id="content">
+				<!-- form to create executed work -->
 				<form th:action="@{/executedworksubmit}" th:object="${ExecutedWork}" method="post">
 					<div class='form-group row'>
 						<label class='col-sm-2 col-form-label'>Название</label>
@@ -85,7 +87,7 @@
 					</div>
 					<div class='form-group row'>
 						<label for='datefinish' class='col-sm-2 col-form-label'>Окончание</label>
-						<input type='datetime-local'  class='form-control' id='datefinish' th:field="*{datefinish}">
+						<input type='datetime-local' class='form-control' id='datefinish' th:field="*{datefinish}">
 					</div>
 					<div class='form-group row'>
 						<label for='comment' class='col-sm-2 col-form-label'>Комментарий</label>

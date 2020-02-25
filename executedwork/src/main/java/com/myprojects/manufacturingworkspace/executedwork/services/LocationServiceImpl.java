@@ -1,20 +1,19 @@
 package com.myprojects.manufacturingworkspace.executedwork.services;
 
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.myprojects.manufacturingworkspace.executedwork.entities.Location;
-import com.myprojects.manufacturingworkspace.executedwork.repository.LocationRepositoryImpl;
+import com.myprojects.manufacturingworkspace.executedwork.repository.LocationRepository;
 
-@Service
 public class LocationServiceImpl implements LocationService {
 	
-	@Autowired
-	private LocationRepositoryImpl LocationRepositoryImpl;
+	private LocationRepository LocationRepositoryImpl;
+	
+	public LocationServiceImpl(LocationRepository locationRepository) {
+		this.LocationRepositoryImpl=locationRepository;
+	}
 	
 	public LocationServiceImpl() {};
+	
 	@Override
 	public void createLocation(Location location) {
 		LocationRepositoryImpl.createLocation(location);

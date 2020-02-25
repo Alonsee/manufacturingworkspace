@@ -4,16 +4,17 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.myprojects.manufacturingworkspace.executedwork.entities.Employee;
 
-@Component
 public class EmployeeRepositoryImpl implements EmployeeRepository {
 
-	@Autowired
 	SessionFactory sessionFactory;
+	
+	public EmployeeRepositoryImpl(SessionFactory sessionFactory) {
+		this.sessionFactory=sessionFactory;
+	}
+	
+	public EmployeeRepositoryImpl() {};
 	
 	@Override
 	public void createEmployee(Employee employee) {
@@ -39,14 +40,14 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 		tr.commit();
 		session.close();
 	}
-
+	@Override
 	public Employee findById(int id) {
 		Session session=sessionFactory.openSession();
 		Employee em=session.get(Employee.class, id);
 		session.close();
 		return em;
 	}
-	
+	@Override
 	public List<Employee> findByLocationId(int id) {
 		Session session=sessionFactory.openSession();
 		@SuppressWarnings("rawtypes")
@@ -57,7 +58,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 		session.close();
 		return em;
 	}
-	
+	@Override
 	public List<Employee> selectAll() {
 		Session session=sessionFactory.openSession();
 		@SuppressWarnings("unchecked")

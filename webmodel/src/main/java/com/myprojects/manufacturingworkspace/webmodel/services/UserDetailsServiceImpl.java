@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.myprojects.manufacturingworkspace.webmodel.entities.User;
 import com.myprojects.manufacturingworkspace.webmodel.repository.UserRepositoryImpl;
 
+//userdetails service for spring security
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService{
 

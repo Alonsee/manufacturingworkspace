@@ -3,7 +3,9 @@ package com.myprojects.manufacturingworkspace.executedwork.services;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.myprojects.manufacturingworkspace.executedwork.entities.Employee;
 import com.myprojects.manufacturingworkspace.executedwork.entities.ExecutedWork;
+import com.myprojects.manufacturingworkspace.executedwork.entities.Location;
 
 public interface ExecutedWorkService {
 	public void createExecutedWork(ExecutedWork ew);
@@ -12,10 +14,10 @@ public interface ExecutedWorkService {
 	public List<ExecutedWork> findByEmployeeId(int id);
 	public List<ExecutedWork> selectAll();
 	public List<ExecutedWork> findByLocationId(int id);
-	public List<ExecutedWork> findByLocationIdAndTime(int id, GregorianCalendar datestart, GregorianCalendar datefinish);
-	public List<ExecutedWork> findByEmployeeIdAndTime(int id, GregorianCalendar datestart, GregorianCalendar datefinish);
+	public List<ExecutedWork> findByLocationIdAndTime(Location location, GregorianCalendar datestart, GregorianCalendar datefinish);
+	public List<ExecutedWork> findByEmployeeIdAndTime(Employee employee, GregorianCalendar datestart, GregorianCalendar datefinish);
 	public ExecutedWork findById(int id);
-	public List<ExecutedWork> searchByParams(String title, String designation,Integer employeeid,
-												Integer locationid,GregorianCalendar searchstart,
+	public List<ExecutedWork> searchByParams(String title, String designation,Employee employee,
+												Location location,GregorianCalendar searchstart,
 												GregorianCalendar searchfinish);
 }
