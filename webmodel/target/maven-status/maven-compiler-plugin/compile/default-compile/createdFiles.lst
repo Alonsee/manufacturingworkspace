@@ -1,4 +1,5 @@
 com\myprojects\manufacturingworkspace\webmodel\controller\ExceptionHandlingController.class
+com\myprojects\manufacturingworkspace\webmodel\exceptions\SearchRecordsException.class
 com\myprojects\manufacturingworkspace\webmodel\repository\UserRepository.class
 com\myprojects\manufacturingworkspace\webmodel\entities\User.class
 com\myprojects\manufacturingworkspace\webmodel\exceptions\EditingRecordException.class

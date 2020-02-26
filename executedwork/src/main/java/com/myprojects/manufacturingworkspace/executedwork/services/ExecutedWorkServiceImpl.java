@@ -31,16 +31,8 @@ public class ExecutedWorkServiceImpl implements ExecutedWorkService{
 		ExecutedWorkRepositoryImpl.deleteExecutedWork(ew);
 	}
 	@Override
-	public List<ExecutedWork> findByEmployeeId(int id) {
-		return ExecutedWorkRepositoryImpl.findByEmployeeId(id);
-	}
-	@Override
 	public List<ExecutedWork> selectAll() {
 		return ExecutedWorkRepositoryImpl.selectAll();
-	}
-	@Override
-	public List<ExecutedWork> findByLocationId(int id) {
-		return ExecutedWorkRepositoryImpl.findByLocationId(id);
 	}
 	@Override
 	public List<ExecutedWork> findByLocationIdAndTime(Location location, GregorianCalendar datestart, GregorianCalendar datefinish) {

@@ -11,9 +11,7 @@ public interface ExecutedWorkService {
 	public void createExecutedWork(ExecutedWork ew);
 	public void updateExecutedWork(ExecutedWork ew);
 	public void deleteExecutedWork(ExecutedWork ew);
-	public List<ExecutedWork> findByEmployeeId(int id);
 	public List<ExecutedWork> selectAll();
-	public List<ExecutedWork> findByLocationId(int id);
 	public List<ExecutedWork> findByLocationIdAndTime(Location location, GregorianCalendar datestart, GregorianCalendar datefinish);
 	public List<ExecutedWork> findByEmployeeIdAndTime(Employee employee, GregorianCalendar datestart, GregorianCalendar datefinish);
 	public ExecutedWork findById(int id);

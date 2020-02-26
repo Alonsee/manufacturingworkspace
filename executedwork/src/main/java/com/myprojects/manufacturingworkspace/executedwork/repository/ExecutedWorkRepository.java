@@ -11,8 +11,6 @@ public interface ExecutedWorkRepository {
 	void createExecutedWork(ExecutedWork executedwork);
 	void updateExecutedWork(ExecutedWork executedwork);
 	void deleteExecutedWork(ExecutedWork executedwork);
-	public List<ExecutedWork> findByEmployeeId(int id);
-	public List<ExecutedWork> findByLocationId(int id);
 	public List<ExecutedWork> findByLocationIdAndTime(Location location, GregorianCalendar datestart, GregorianCalendar datefinish);
 	public List<ExecutedWork> findByEmployeeIdAndTime(Employee employee, GregorianCalendar datestart, GregorianCalendar datefinish);
 	public List<ExecutedWork> selectAll();

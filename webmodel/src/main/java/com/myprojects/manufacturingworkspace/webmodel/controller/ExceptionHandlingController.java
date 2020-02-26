@@ -12,7 +12,7 @@ public class ExceptionHandlingController extends ResponseEntityExceptionHandler 
 	
 	@ExceptionHandler(Exception.class)
 	protected String handleException(HttpServletRequest req,Exception e,Model model) {
-		    model.addAttribute("exception", e+" :"+e.getMessage());
+		    model.addAttribute("exception", e.getMessage());
 		    model.addAttribute("url", req.getRequestURL());
 		    return "error";
 	}

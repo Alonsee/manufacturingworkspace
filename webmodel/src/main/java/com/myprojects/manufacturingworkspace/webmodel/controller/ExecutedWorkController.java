@@ -1,5 +1,6 @@
 package com.myprojects.manufacturingworkspace.webmodel.controller;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -21,6 +22,7 @@ import com.myprojects.manufacturingworkspace.executedwork.services.EmployeeServi
 import com.myprojects.manufacturingworkspace.executedwork.services.ExecutedWorkService;
 import com.myprojects.manufacturingworkspace.executedwork.services.LocationService;
 import com.myprojects.manufacturingworkspace.webmodel.exceptions.EditingRecordException;
+import com.myprojects.manufacturingworkspace.webmodel.exceptions.SearchRecordsException;
 import com.myprojects.manufacturingworkspace.webmodel.services.UserServiceImpl;
 
 @Controller
@@ -132,20 +134,29 @@ public class ExecutedWorkController {
 									 @RequestParam(required=false) String designation,
 									 @RequestParam @DateTimeFormat(pattern="yyyy-MM-d") Date searchstart,
 									 @RequestParam @DateTimeFormat(pattern="yyyy-MM-d") Date searchfinish,
-									 Model model)
+									 Model model) throws SearchRecordsException
 	{
 		GregorianCalendar sstart=new GregorianCalendar();
 		sstart.setTime(searchstart);
+
 		GregorianCalendar sfinish=new GregorianCalendar();
-		sfinish.setTime(searchstart);
+		sfinish.setTime(searchfinish);
+		sfinish.set(Calendar.HOUR_OF_DAY, 23);
+		sfinish.set(Calendar.MINUTE,59);
+		sfinish.set(Calendar.SECOND,59);
+		sfinish.set(Calendar.MILLISECOND,999);
 
 		Employee employee=null; 
 		Location location=null;
 		if (employeeid!=null) employee=EmployeeServiceImpl.findById(employeeid);
 		if(locationid!=null) location=LocationServiceImpl.findById(locationid);
 
-		model.addAttribute("executedwork", ExecutedWorkServiceImpl.searchByParams(title,
-							designation, employee, location, sstart, sfinish));
+		List<ExecutedWork> executedwork=ExecutedWorkServiceImpl.searchByParams(title,
+									designation, employee, location, sstart, sfinish);
+		
+		if(executedwork.size()==0) throw new SearchRecordsException("There are no results for the given parameters");
+		model.addAttribute("executedwork", executedwork);
+
 		return "executedworksearch";
 	}
 }

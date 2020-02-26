@@ -46,28 +46,6 @@ public class ExecutedWorkRepositoryImpl implements ExecutedWorkRepository {
 		session.close();
 	}
 	@Override
-	public List<ExecutedWork> findByEmployeeId(int id) {
-		Session session=sessionFactory.openSession();
-		@SuppressWarnings("rawtypes")
-		org.hibernate.query.Query query=session.createQuery("from ExecutedWork where employee=:employeeid")
-				.setParameter("employeeid", String.valueOf(id));
-		@SuppressWarnings("unchecked")
-		List<ExecutedWork> ew=(List<ExecutedWork>) query.getResultList();
-		session.close();
-		return ew;
-	}
-	@Override
-	public List<ExecutedWork> findByLocationId(int id) {
-		Session session=sessionFactory.openSession();
-		@SuppressWarnings("rawtypes")
-		org.hibernate.query.Query query=session.createQuery("from ExecutedWork where location=:location")
-				.setParameter("location", String.valueOf(id));
-		@SuppressWarnings("unchecked")
-		List<ExecutedWork> ew=(List<ExecutedWork>) query.getResultList();
-		session.close();
-		return ew;
-	}
-	@Override
 	public List<ExecutedWork> findByLocationIdAndTime(Location location, GregorianCalendar datestart, GregorianCalendar datefinish) {
 		Session session=sessionFactory.openSession();
 		@SuppressWarnings("rawtypes")
@@ -98,7 +76,7 @@ public class ExecutedWorkRepositoryImpl implements ExecutedWorkRepository {
 		Session session=sessionFactory.openSession();
 		@SuppressWarnings("unchecked")
 		Query<ExecutedWork> query= (Query<ExecutedWork>) session.createQuery("from ExecutedWork order by id desc");
-		query.setMaxResults(20);
+		query.setMaxResults(15);
 		List<ExecutedWork> ew=(List<ExecutedWork>) query.getResultList();
 		session.close();
 		return ew;
