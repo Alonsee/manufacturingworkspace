@@ -5,7 +5,6 @@ import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.myprojects.manufacturingworkspace.webmodel.entities.User;
@@ -24,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 		UserBuilder builder=null;
 		 if (user != null) {
 		      builder = org.springframework.security.core.userdetails.User.withUsername(username);
-		      builder.password(new BCryptPasswordEncoder().encode(user.getUserpassword()));
+		      builder.password(user.getUserpassword());
 		      builder.roles(user.getUserrole());
 		    } else {
 		      throw new UsernameNotFoundException("User not found.");

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +37,7 @@ public class ExecutedWorkController {
 	EmployeeService EmployeeServiceImpl;
 	@Autowired
 	UserServiceImpl userServiceImpl;
-	
+
 	@GetMapping("/executedwork")
 	public String executedwork(Model model) {	
 		//show last 20 executed work records
