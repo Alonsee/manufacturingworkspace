@@ -22,16 +22,16 @@
   					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     					<span class="navbar-toggler-icon"></span>
   					</button>
-  					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-    					<ul class="navbar-nav mr-auto sidenav" id="navAccordion">
+  					<div class="collapse navbar-collapse">
+    					<ul class="navbar-nav mr-auto sidenav">
     						<li class="nav-item">
         							<a class="nav-link nav-link-collapse" th:href="@{'/executedwork'}">Недавно добавленные записи</a>
      						</li>
-      						<li class="nav-item" id="create">
-        							<a class="nav-link nav-link-collapse" th:href="@{'/executedworkcreate'}">Создать запись</a>
+      						<li class="nav-item">
+        							<a class="nav-link nav-link-collapse" th:href="@{'/executedwork/create'}">Создать запись</a>
      						</li>
-     						<li class="nav-item" id="create">
-        							<a class="nav-link nav-link-collapse" th:href="@{'/executedworksearch'}">Поиск по параметрам</a>
+     						<li class="nav-item">
+        							<a class="nav-link nav-link-collapse" th:href="@{'/executedwork/search'}">Поиск по параметрам</a>
      						</li>
       					</ul>
       				</div>
@@ -49,7 +49,7 @@
 					<li>Обозначению</li>
 				</ul>
 			</div>
-			<form th:action="@{'/executedworksearchwithparams'}" method="get" 
+			<form th:action="@{'/executedwork/searchparams'}" method="get" 
 					th:if="(${executedwork}==null)">
 					<div class='form-group row'>
 						<label class='col-sm-2 col-form-label'>Название</label>
@@ -57,7 +57,7 @@
 					</div>
 					<div class='form-group row'>
 						<label for='designation' class='col-sm-2 col-form-label'>Обозначение</label>
-						<input type='text' class='form-control' id='designation' name="designation">
+						<input type='text' class='form-control' name="designation">
 					</div>
 					<div class='form-group row'>
 						<label class='col-sm-2 col-form-label'>Участок</label>				
@@ -123,9 +123,13 @@
 						<td th:text="${#dates.format(exwork.datefinish,'dd-MM-yyyy HH:mm')}"></td>
 						<td th:text="${exwork.comment}"></td>
 						<td th:if="${#request.isUserInRole('ADMIN')}">
-							<form th:action="@{/executedworkedit}" method="post">
-								<input type='hidden' class='form-control'  name="selectedExecutedWorkId" th:value="${exwork.id}">
-								<button type="submit" class="btn btn-primary">Редактировать</button>
+							<form th:action="@{/executedwork/edit}" method="post">
+								<input type='hidden' name="selectedExecutedWorkId" th:value="${exwork.id}">
+								<button type="submit" class="btn btn-primary editbuttons">Edit</button>
+							</form>
+							<form th:action="@{/executedwork/delete}" method="post">
+								<input type='hidden' name="selectedExecutedWorkId" th:value="${exwork.id}">
+								<button type="submit" class="btn btn-primary editbuttons">Del</button>
 							</form>
 						</td>
 					</tr>

@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 import com.myprojects.manufacturingworkspace.executedwork.entities.Employee;
@@ -26,7 +26,9 @@ import com.myprojects.manufacturingworkspace.webmodel.exceptions.EditingRecordEx
 import com.myprojects.manufacturingworkspace.webmodel.exceptions.SearchRecordsException;
 import com.myprojects.manufacturingworkspace.webmodel.services.UserServiceImpl;
 
+
 @Controller
+@RequestMapping("/executedwork")
 public class ExecutedWorkController {
 	
 	@Autowired
@@ -38,7 +40,7 @@ public class ExecutedWorkController {
 	@Autowired
 	UserServiceImpl userServiceImpl;
 
-	@GetMapping("/executedwork")
+	@GetMapping
 	public String executedwork(Model model) {	
 		//show last 20 executed work records
 		List<ExecutedWork> executedwork=ExecutedWorkServiceImpl.selectAll();
@@ -46,76 +48,7 @@ public class ExecutedWorkController {
 		return "executedwork";
 	}
 	
-	@GetMapping("/executedworkcreate")
-	public String createexecutedwork(Model model) {
-
-		//add locations list for dinamic selection field
-		List<Location> locations=LocationServiceImpl.selectAll();
-		model.addAttribute("locations", locations);
-
-		//add employees list for dinamic selection field
-		List<Employee> employees=EmployeeServiceImpl.selectAll();
-		model.addAttribute("employees",employees);
-
-		ExecutedWork ew=new ExecutedWork();
-		//add current time to display in fields
-		//start and finish time for easy recording in the field
-		ew.setDatestart(new GregorianCalendar());
-		ew.setDatefinish(new GregorianCalendar());
-		//add executedwork object for the form
-		model.addAttribute("ExecutedWork", ew);
-        return "executedworkcreate";
-	}
-	
-	@PostMapping("/executedworksubmit")
-	public RedirectView executedworksubmit(@ModelAttribute ExecutedWork executedwork,
-			@ModelAttribute Location Location,
-			@ModelAttribute Employee Employee,
-			Model model) {
-		//entry in the fields converted location and employee onjects
-		executedwork.setLocation(Location);
-		executedwork.setEmployee(Employee);
-		
-		//entry user, who created record
-		UserDetails loggeduser=(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();		
-			
-		if(executedwork.getId()==0) {
-			executedwork.setCreated_by(userServiceImpl.searchUserByUsername(loggeduser.getUsername()).getId());
-			ExecutedWorkServiceImpl.createExecutedWork(executedwork);
-		}
-		else ExecutedWorkServiceImpl.updateExecutedWork(executedwork);
-		
-		return new RedirectView("/executedwork");
-	}
-	
-	@PostMapping("/executedworkedit")
-	public String executedworkedit(@RequestParam int selectedExecutedWorkId, Model model) 
-			throws EditingRecordException {
-		
-		//search record by id
-		ExecutedWork selectedExecutedWork=ExecutedWorkServiceImpl.findById(selectedExecutedWorkId);
-		
-		//if another user created the record throws exception
-		if(userServiceImpl.searchUserByUsername(((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername()).getId()
-				!=selectedExecutedWork.getCreated_by()) 
-		{
-			throw new EditingRecordException("This record was created by another user");
-		}
-		
-		//add selected record into model
-		model.addAttribute("ExecutedWork", selectedExecutedWork);
-		
-		//add locations and employee list for dinamic selection fields
-		List<Location> locations=LocationServiceImpl.selectAll();
-		model.addAttribute("locations", locations);
-
-		List<Employee> employees=EmployeeServiceImpl.selectAll();
-		model.addAttribute("employees",employees);
-		
-		return "executedworkedit";
-		}
-	
-	@GetMapping("/executedworksearch")
+	@GetMapping("/search")
 	public String executedworksearch(Model model)
 		{
 		//add locations and employee list for dinamic selection fields in the search form
@@ -128,7 +61,7 @@ public class ExecutedWorkController {
 		return "executedworksearch";
 		}
 	
-	@GetMapping("/executedworksearchwithparams")
+	@GetMapping("/searchparams")
 	public String executedworksearchwithparams(@RequestParam(required=false) Integer employeeid,
 									 @RequestParam(required=false) Integer locationid,
 									 @RequestParam(required=false) String title,
@@ -159,5 +92,80 @@ public class ExecutedWorkController {
 		model.addAttribute("executedwork", executedwork);
 
 		return "executedworksearch";
+	}
+	
+	@GetMapping("/create")
+	public String createexecutedwork(Model model) {
+
+		//add locations list for dinamic selection field
+		List<Location> locations=LocationServiceImpl.selectAll();
+		model.addAttribute("locations", locations);
+
+		//add employees list for dinamic selection field
+		List<Employee> employees=EmployeeServiceImpl.selectAll();
+		model.addAttribute("employees",employees);
+
+		ExecutedWork ew=new ExecutedWork();
+		//add current time to display in fields
+		//start and finish time for easy recording in the field
+		ew.setDatestart(new GregorianCalendar());
+		ew.setDatefinish(new GregorianCalendar());
+		//add executedwork object for the form
+		model.addAttribute("ExecutedWork", ew);
+        return "executedworkcreate";
+	}
+	
+	@PostMapping("/edit")
+	public String executedworkedit(@RequestParam int selectedExecutedWorkId, Model model) 
+			throws EditingRecordException {
+		
+		//search record by id
+		ExecutedWork selectedExecutedWork=ExecutedWorkServiceImpl.findById(selectedExecutedWorkId);
+		
+		//if another user created the record throws exception
+		if(userServiceImpl.searchUserByUsername(((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername()).getId()
+				!=selectedExecutedWork.getCreated_by()) 
+		{
+			throw new EditingRecordException("This record was created by another user");
+		}
+		
+		//add selected record into model
+		model.addAttribute("ExecutedWork", selectedExecutedWork);
+		
+		//add locations and employee list for dinamic selection fields
+		List<Location> locations=LocationServiceImpl.selectAll();
+		model.addAttribute("locations", locations);
+
+		List<Employee> employees=EmployeeServiceImpl.selectAll();
+		model.addAttribute("employees",employees);
+		
+		return "executedworkedit";
+		}
+	
+	@PostMapping("/submit")
+	public RedirectView executedworksubmit(@ModelAttribute ExecutedWork executedwork,
+			@ModelAttribute Location Location,
+			@ModelAttribute Employee Employee,
+			Model model) {
+		
+		//entry in the fields converted location and employee onjects
+		executedwork.setLocation(Location);
+		executedwork.setEmployee(Employee);
+
+		if(executedwork.getId()==0) {
+			//entry user, who created record
+			UserDetails loggeduser=(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();	
+			executedwork.setCreated_by(userServiceImpl.searchUserByUsername(loggeduser.getUsername()).getId());
+			ExecutedWorkServiceImpl.createExecutedWork(executedwork);
+		}
+		else ExecutedWorkServiceImpl.updateExecutedWork(executedwork);
+		
+		return new RedirectView("/executedwork");
+	}
+	
+	@PostMapping("/delete")
+	public RedirectView executedworkdelete(@RequestParam(name="selectedExecutedWorkId") Integer executedworkid) {	
+		ExecutedWorkServiceImpl.deleteExecutedWork(ExecutedWorkServiceImpl.findById(executedworkid));
+		return new RedirectView("/executedwork");
 	}
 }

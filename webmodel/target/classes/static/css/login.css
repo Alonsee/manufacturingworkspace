@@ -1,6 +1,10 @@
 .form-control{
-	width:50%!important;
+	width:66%;
 }
 label{
-	width:40%!important;
+	width:33%;
+}
+form{
+	margin-top:10%;
+	width:100%;
 }

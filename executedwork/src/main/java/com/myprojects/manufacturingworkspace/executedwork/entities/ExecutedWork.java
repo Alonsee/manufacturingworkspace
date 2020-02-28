@@ -5,6 +5,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 //emtity object for completed work
@@ -16,17 +19,30 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name="executedwork")
 public class ExecutedWork {
 	
+	@NotNull
 	private String title;
+	
+	@NotNull
+	@Size(min=0,max=50)
 	private String designation;
 	
+	@NotNull
 	@DateTimeFormat(pattern="yyyy-MM-d'T'H:mm")
 	private Calendar datestart;
+	
+	@NotNull
 	@DateTimeFormat(pattern="yyyy-MM-d'T'H:mm")
 	private Calendar datefinish;
+	
 	private int count;
+	
 	private double piecetime;
+	
+	@Size(min=0,max=300)
 	private String comment;
+	
 	private double adjustmenttime;
+	
 	private int created_by;
 
 	@Id
@@ -45,7 +61,6 @@ public class ExecutedWork {
 	
 	public ExecutedWork(String title, String designation, GregorianCalendar datestart, GregorianCalendar datefinish,
 			int count, double piecetime, String comment) {
-		super();
 		this.title = title;
 		this.designation = designation;
 		this.datestart = datestart;

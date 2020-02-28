@@ -13,7 +13,7 @@ body{
  cursor: pointer;
 }
 .nav-link{
- margin-right: 1em !important;
+ margin-right: 1em;
 }
 .nav-link:hover{
  background: #7FFFD4;
@@ -23,7 +23,7 @@ body{
  justify-content: flex-end;
 }
 .navbar-toggler{
-  background:#fff !important;
+  background:#fff;
 }
 
 @media (min-width: 100px) {

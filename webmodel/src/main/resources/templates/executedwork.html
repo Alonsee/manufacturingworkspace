@@ -22,16 +22,16 @@
   					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     					<span class="navbar-toggler-icon"></span>
   					</button>
-  					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-    					<ul class="navbar-nav mr-auto sidenav" id="navAccordion">
+  					<div class="collapse navbar-collapse">
+    					<ul class="navbar-nav mr-auto sidenav">
     						<li class="nav-item">
         							<a class="nav-link nav-link-collapse" th:href="@{'/executedwork'}">Недавно добавленные записи</a>
      						</li>
       						<li class="nav-item" id="create">
-        							<a class="nav-link nav-link-collapse" th:href="@{'/executedworkcreate'}">Создать запись</a>
+        							<a class="nav-link nav-link-collapse" th:href="@{'/executedwork/create'}">Создать запись</a>
      						</li>
      						<li class="nav-item" id="create">
-        							<a class="nav-link nav-link-collapse" th:href="@{'/executedworksearch'}">Поиск по параметрам</a>
+        							<a class="nav-link nav-link-collapse" th:href="@{'/executedwork/search'}">Поиск по параметрам</a>
      						</li>
       					</ul>
       				</div>
@@ -70,9 +70,13 @@
 						<td th:text="${exwork.comment}"></td>
 						<!-- add edit button for authenticated users -->
 						<td th:if="${#request.isUserInRole('ADMIN')}">
-							<form th:action="@{/executedworkedit}" method="post">
-								<input type='hidden' class='form-control'  name="selectedExecutedWorkId" th:value="${exwork.id}">
-								<button type="submit" class="btn btn-primary">Edit</button>
+							<form th:action="@{/executedwork/edit}" method="post" class="editforms">
+								<input type='hidden'  name="selectedExecutedWorkId" th:value="${exwork.id}">
+								<button type="submit" class="btn btn-primary editbuttons">Edit</button>
+							</form>
+							<form th:action="@{/executedwork/delete}" method="post" class="editforms">
+								<input type='hidden'  name="selectedExecutedWorkId" th:value="${exwork.id}">
+								<button type="submit" class="btn btn-primary editbuttons">Del</button>
 							</form>
 						</td>
 					</tr>

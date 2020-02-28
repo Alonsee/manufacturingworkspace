@@ -15,5 +15,4 @@ com\myprojects\manufacturingworkspace\executedwork\entities\Location.class
 com\myprojects\manufacturingworkspace\executedwork\repository\LocationRepositoryImpl.class
 com\myprojects\manufacturingworkspace\executedwork\services\ExecutedWorkServiceImpl.class
 com\myprojects\manufacturingworkspace\executedwork\repository\EmployeeRepository.class
-com\myprojects\manufacturingworkspace\executedwork\entities\ExecutedWorkConverter.class
 com\myprojects\manufacturingworkspace\executedwork\repository\ExecutedWorkRepository.class

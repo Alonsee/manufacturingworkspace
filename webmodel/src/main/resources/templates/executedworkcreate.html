@@ -22,32 +22,32 @@
   					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     					<span class="navbar-toggler-icon"></span>
   					</button>
-  					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-    					<ul class="navbar-nav mr-auto sidenav" id="navAccordion">
+  					<div class="collapse navbar-collapse">
+    					<ul class="navbar-nav mr-auto sidenav">
     						<li class="nav-item">
         							<a class="nav-link nav-link-collapse" th:href="@{'/executedwork'}">Недавно добавленные записи</a>
      						</li>
-      						<li class="nav-item" id="create">
-        							<p class="nav-link nav-link-collapse">Создать запись</p>
+      						<li class="nav-item">
+        							<a class="nav-link nav-link-collapse" th:href="@{'/executedwork/create'}">Создать запись</a>
      						</li>
-     						<li class="nav-item" id="create">
-        							<a class="nav-link nav-link-collapse" th:href="@{'/executedworksearch'}">Поиск по параметрам</a>
+     						<li class="nav-item">
+        							<a class="nav-link nav-link-collapse" th:href="@{'/executedwork/search'}">Поиск по параметрам</a>
      						</li>
       					</ul>
       				</div>
 				</nav>
 			</div>
 			
-			<div class="col-lg-7" id="content">
+			<div class="col-lg-7">
 				<!-- form to create executed work -->
-				<form th:action="@{/executedworksubmit}" th:object="${ExecutedWork}" method="post">
+				<form th:action="@{/executedwork/submit}" th:object="${ExecutedWork}" method="post">
 					<div class='form-group row'>
 						<label class='col-sm-2 col-form-label'>Название</label>
 						<input type='text' class='form-control'  th:field="*{title}">
 					</div>
 					<div class='form-group row'>
 						<label for='designation' class='col-sm-2 col-form-label'>Обозначение</label>
-						<input type='text' class='form-control' id='designation' th:field="*{designation}">
+						<input type='text' class='form-control' th:field="*{designation}">
 					</div>
 					<div class='form-group row'>
 						<label class='col-sm-2 col-form-label'>Участок</label>				
@@ -71,27 +71,27 @@
 					</div>		
 					<div class='form-group row'>
 						<label for='designation' class='col-sm-2 col-form-label'>Наладка</label>
-						<input type='number' step='0.01' min='0' class='form-control' id='adjustment' th:field="*{adjustmenttime}">
+						<input type='number' step='0.01' min='0' class='form-control' th:field="*{adjustmenttime}">
 					</div>						
 					<div class='form-group row'>
 						<label for='count' class='col-sm-2 col-form-label'>Количество</label>
-						<input type='number' step='1' min='1' class='form-control' id='count' th:field="*{count}">
+						<input type='number' step='1' min='1' class='form-control' th:field="*{count}">
 					</div>
 					<div class='form-group row'>
 						<label for='piecetime' class='col-sm-2 col-form-label'>Штучное время</label>
-						<input type='number' step='0.01' min='0' class='form-control' id='piecetime' th:field="*{piecetime}">
+						<input type='number' step='0.01' min='0' class='form-control' th:field="*{piecetime}">
 					</div>
 					<div class='form-group row'>
 						<label for='datestart' class='col-sm-2 col-form-label'>Запуск</label>
-						<input type='datetime-local'  class='form-control' id='datestart' th:field="*{datestart}">
+						<input type='datetime-local'  class='form-control' th:field="*{datestart}">
 					</div>
 					<div class='form-group row'>
 						<label for='datefinish' class='col-sm-2 col-form-label'>Окончание</label>
-						<input type='datetime-local' class='form-control' id='datefinish' th:field="*{datefinish}">
+						<input type='datetime-local' class='form-control' th:field="*{datefinish}">
 					</div>
 					<div class='form-group row'>
 						<label for='comment' class='col-sm-2 col-form-label'>Комментарий</label>
-						<textarea class='form-control' id='comment' th:field="*{comment}" rows='3' maxlength="100"></textarea>
+						<textarea class='form-control' th:field="*{comment}" rows='3' maxlength="100"></textarea>
 					</div>
 					<button type="submit" class="btn btn-primary">Отправить</button>
 				</form>
