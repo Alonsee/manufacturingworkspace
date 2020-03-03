@@ -85,6 +85,7 @@ public class ExecutedWorkController {
 		if (employeeid!=null) employee=EmployeeServiceImpl.findById(employeeid);
 		if(locationid!=null) location=LocationServiceImpl.findById(locationid);
 
+		//dont forget add search with title and designation
 		List<ExecutedWork> executedwork=ExecutedWorkServiceImpl.searchByParams(title,
 									designation, employee, location, sstart, sfinish);
 		
