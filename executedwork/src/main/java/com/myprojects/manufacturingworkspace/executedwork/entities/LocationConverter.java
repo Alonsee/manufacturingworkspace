@@ -7,13 +7,13 @@ import com.myprojects.manufacturingworkspace.executedwork.services.LocationServi
 //converter from location id to location
 public class LocationConverter implements Converter<String,Location> {
 	
-	LocationService LocationServiceImpl;
+	private LocationService locationService;
 	
 	public LocationConverter(LocationService locationService) {
-		this.LocationServiceImpl=locationService;
+		this.locationService = locationService;
 	}
 	public Location convert(String id) {
-		Location location=LocationServiceImpl.findById(Integer.parseInt(id));
+		Location location = locationService.findById(Integer.parseInt(id));
 		return location;
 	}
 }

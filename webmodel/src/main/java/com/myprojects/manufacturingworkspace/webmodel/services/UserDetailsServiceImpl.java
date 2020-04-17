@@ -15,12 +15,12 @@ import com.myprojects.manufacturingworkspace.webmodel.repository.UserRepositoryI
 public class UserDetailsServiceImpl implements UserDetailsService{
 
 	@Autowired
-	UserRepositoryImpl userRepository;
+	private UserRepositoryImpl userRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user=userRepository.searchUserByUsername(username);
-		UserBuilder builder=null;
+		User user = userRepository.searchUserByUsername(username);
+		UserBuilder builder = null;
 		 if (user != null) {
 		      builder = org.springframework.security.core.userdetails.User.withUsername(username);
 		      builder.password(user.getUserpassword());

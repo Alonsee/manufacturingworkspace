@@ -20,25 +20,26 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class ExecutedWork {
 	
 	@NotNull
+	@Size(min = 0,max = 50)
 	private String title;
 	
 	@NotNull
-	@Size(min=0,max=50)
+	@Size(min = 0,max = 50)
 	private String designation;
 	
 	@NotNull
-	@DateTimeFormat(pattern="yyyy-MM-d'T'H:mm")
+	@DateTimeFormat(pattern = "yyyy-MM-d'T'H:mm")
 	private Calendar datestart;
 	
 	@NotNull
-	@DateTimeFormat(pattern="yyyy-MM-d'T'H:mm")
+	@DateTimeFormat(pattern = "yyyy-MM-d'T'H:mm")
 	private Calendar datefinish;
 	
 	private int count;
 	
 	private double piecetime;
 	
-	@Size(min=0,max=300)
+	@Size(min = 0, max = 300)
 	private String comment;
 	
 	private double adjustmenttime;
@@ -46,21 +47,21 @@ public class ExecutedWork {
 	private int created_by;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="employee_id", insertable = true, updatable = true)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "employee_id", insertable = true, updatable = true)
 	Employee employee;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="location_id", insertable = true, updatable = true)
+	@JoinColumn(name = "location_id", insertable = true, updatable = true)
 	Location location;
 
 	public ExecutedWork() {};
 	
-	public ExecutedWork(String title, String designation, GregorianCalendar datestart, GregorianCalendar datefinish,
-			int count, double piecetime, String comment) {
+	public ExecutedWork(String title, String designation, GregorianCalendar datestart, 
+			GregorianCalendar datefinish, int count, double piecetime, String comment) {
 		this.title = title;
 		this.designation = designation;
 		this.datestart = datestart;
@@ -70,7 +71,18 @@ public class ExecutedWork {
 		this.comment = comment;
 	}
 
-
+	@Override
+	public String toString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+		return "executedwork id: " + id + " title: " + title + " designation: " + designation
+				+ " count: " + count + " piecetime: " + piecetime + " start: " + sdf.format(new Date(datestart.getTimeInMillis()))
+				+ " finish: " + sdf.format(new Date(datefinish.getTimeInMillis())) + " comment: " + comment
+				+ " isAdjustment: " + adjustmenttime
+				+ " location: " + location.toString()
+				+ " employee: " + employee.toString()
+				+ " created by: " + created_by;
+	}
+	
 	public String getTitle() {
 		return title;
 	}
@@ -165,18 +177,6 @@ public class ExecutedWork {
 
 	public void setCreated_by(int created_by) {
 		this.created_by = created_by;
-	}
-	
-	@Override
-	public String toString() {
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy.MM.dd HH:mm");
-		return "executedwork id: "+id+" title: "+title+" designation: "+designation
-				+" count: "+count+" piecetime: "+piecetime+" start: "+sdf.format(new Date(datestart.getTimeInMillis()))
-				+" finish: "+sdf.format(new Date(datefinish.getTimeInMillis()))+" comment: "+comment
-				+" isAdjustment: "+ adjustmenttime
-				+" location: "+location.toString()
-				+" employee: "+employee.toString()
-				+" created by: "+created_by;
 	}
 
 }

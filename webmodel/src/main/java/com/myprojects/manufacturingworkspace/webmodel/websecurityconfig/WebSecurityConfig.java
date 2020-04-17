@@ -15,7 +15,7 @@ import com.myprojects.manufacturingworkspace.webmodel.services.UserDetailsServic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
-	UserDetailsServiceImpl userDetailsService;
+	private UserDetailsServiceImpl userDetailsService;
 	
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
@@ -26,8 +26,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 		.authorizeRequests()
-			.antMatchers("/", "/index","/executedwork","/about","/executedwork/search",
-						"/executedwork/searchparams","/resources/**","/js/**","/css/**",
+			.antMatchers("/", "/index", "/executedwork", "/about", "/executedwork/search",
+						"/executedwork/searchparams", "/resources/**", "/js/**", "/css/**",
 						"/images/**").permitAll()
 			.anyRequest().authenticated()
 			.and()

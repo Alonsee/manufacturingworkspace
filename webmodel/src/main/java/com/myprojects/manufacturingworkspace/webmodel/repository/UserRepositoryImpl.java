@@ -13,16 +13,16 @@ import com.myprojects.manufacturingworkspace.webmodel.entities.User;
 public class UserRepositoryImpl implements UserRepository{
 	
 	@Autowired
-	SessionFactory sessionFactory;
+	private SessionFactory sessionFactory;
 
 	@Override
 	public User searchUserByUsername(String username) {
-		Session session=sessionFactory.openSession();
+		Session session = sessionFactory.openSession();
 		@SuppressWarnings("rawtypes")
-		org.hibernate.query.Query query=session.createQuery("from User where username=:username")
-												.setParameter("username", username);
-		if(query.getResultList().isEmpty()) throw new UsernameNotFoundException("User not found.");
-		User user= (User) query.getResultList().get(0);
+		org.hibernate.query.Query query=session.createQuery("from User where username = :username")
+			.setParameter("username", username);
+		if (query.getResultList().isEmpty()) throw new UsernameNotFoundException("User not found.");
+		User user = (User) query.getResultList().get(0);
 		session.close();
 		return user;
 	}

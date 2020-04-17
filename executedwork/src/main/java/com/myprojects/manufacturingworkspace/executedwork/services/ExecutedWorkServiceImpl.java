@@ -1,5 +1,6 @@
 package com.myprojects.manufacturingworkspace.executedwork.services;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -10,49 +11,65 @@ import com.myprojects.manufacturingworkspace.executedwork.repository.ExecutedWor
 
 public class ExecutedWorkServiceImpl implements ExecutedWorkService{
 	
-	private ExecutedWorkRepository ExecutedWorkRepositoryImpl;
+	private ExecutedWorkRepository executedWorkRepository;
 	
 	public ExecutedWorkServiceImpl(ExecutedWorkRepository executedWorkRepositoryImpl) {
-		this.ExecutedWorkRepositoryImpl=executedWorkRepositoryImpl;
+		this.executedWorkRepository = executedWorkRepositoryImpl;
 	}
 	
 	public ExecutedWorkServiceImpl() {};
 	
 	@Override
 	public void createExecutedWork(ExecutedWork ew) {
-		ExecutedWorkRepositoryImpl.createExecutedWork(ew);
+		executedWorkRepository.createExecutedWork(ew);
 	}
+	
 	@Override
 	public void updateExecutedWork(ExecutedWork ew) {
-		ExecutedWorkRepositoryImpl.updateExecutedWork(ew);
+		executedWorkRepository.updateExecutedWork(ew);
 	}
+	
 	@Override
 	public void deleteExecutedWork(ExecutedWork ew) {
-		ExecutedWorkRepositoryImpl.deleteExecutedWork(ew);
+		executedWorkRepository.deleteExecutedWork(ew);
 	}
+	
 	@Override
 	public List<ExecutedWork> selectAll() {
-		return ExecutedWorkRepositoryImpl.selectAll();
+		return executedWorkRepository.selectAll();
 	}
-	@Override
-	public List<ExecutedWork> findByLocationIdAndTime(Location location, GregorianCalendar datestart, GregorianCalendar datefinish) {
-		return ExecutedWorkRepositoryImpl.findByLocationIdAndTime(location, datestart, datefinish);
-	}
-	@Override
-	public List<ExecutedWork> findByEmployeeIdAndTime(Employee employee, GregorianCalendar datestart, GregorianCalendar datefinish) {
-		return ExecutedWorkRepositoryImpl.findByEmployeeIdAndTime(employee, datestart, datefinish);
-	}
+	
 	@Override
 	public ExecutedWork findById(int id) {
-		return ExecutedWorkRepositoryImpl.findById(id);
+		return executedWorkRepository.findById(id);
 	}
+	
 	@Override
-	public List<ExecutedWork> searchByParams(String title, String designation, Employee employee, Location location,
-			GregorianCalendar searchstart, GregorianCalendar searchfinish) {
-			if(employee!=null&title==""&designation==""&location==null&searchstart!=null&searchfinish!=null)
-							return findByEmployeeIdAndTime(employee,searchstart,searchfinish);
-			if(location!=null&title==""&designation==""&employee==null&searchstart!=null&searchfinish!=null)
-				return findByLocationIdAndTime(location,searchstart,searchfinish);
-			return null;
+	public List<ExecutedWork> searchByParams(String title, String designation, 
+			Employee employee, Location location, GregorianCalendar searchstart, 
+			GregorianCalendar searchfinish) {
+		
+		searchfinish.set(Calendar.HOUR_OF_DAY, 23);
+		searchfinish.set(Calendar.MINUTE,59);
+		searchfinish.set(Calendar.SECOND,59);
+		searchfinish.set(Calendar.MILLISECOND,999);
+
+		if (!title.equals("") & designation.equals("")) {
+			return executedWorkRepository.findByTitle(title);
+		}
+			
+		if (!designation.equals("") & title.equals("")) {
+			return executedWorkRepository.findByDesignation(designation);
+		}
+			
+		if ((employee != null) & title.equals("") & designation.equals("") & (location == null)) {
+			return executedWorkRepository.findByEmployeeIdAndTime(employee,searchstart,searchfinish);
+		}
+			
+		if ((location != null) & title.equals("") & designation.equals("") & (employee == null)){
+			return executedWorkRepository.findByLocationIdAndTime(location,searchstart,searchfinish);
+		}
+			
+		return null;
 	}
 }

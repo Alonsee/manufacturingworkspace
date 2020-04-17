@@ -1,21 +1,26 @@
 package com.myprojects.manufacturingworkspace.webmodel.controller;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import com.myprojects.manufacturingworkspace.executedwork.entities.Employee;
 import com.myprojects.manufacturingworkspace.executedwork.entities.ExecutedWork;
 import com.myprojects.manufacturingworkspace.executedwork.entities.Location;
@@ -24,7 +29,7 @@ import com.myprojects.manufacturingworkspace.executedwork.services.ExecutedWorkS
 import com.myprojects.manufacturingworkspace.executedwork.services.LocationService;
 import com.myprojects.manufacturingworkspace.webmodel.exceptions.EditingRecordException;
 import com.myprojects.manufacturingworkspace.webmodel.exceptions.SearchRecordsException;
-import com.myprojects.manufacturingworkspace.webmodel.services.UserServiceImpl;
+import com.myprojects.manufacturingworkspace.webmodel.services.UserService;
 
 
 @Controller
@@ -32,18 +37,21 @@ import com.myprojects.manufacturingworkspace.webmodel.services.UserServiceImpl;
 public class ExecutedWorkController {
 	
 	@Autowired
-	ExecutedWorkService ExecutedWorkServiceImpl;
+	ExecutedWorkService executedWorkService;
+	
 	@Autowired
-	LocationService LocationServiceImpl;
+	LocationService locationService;
+	
 	@Autowired
-	EmployeeService EmployeeServiceImpl;
+	EmployeeService employeeService;
+	
 	@Autowired
-	UserServiceImpl userServiceImpl;
+	UserService userServiceImpl;
 
 	@GetMapping
 	public String executedwork(Model model) {	
-		//show last 20 executed work records
-		List<ExecutedWork> executedwork=ExecutedWorkServiceImpl.selectAll();
+		//show last 15 executed work records
+		List<ExecutedWork> executedwork = executedWorkService.selectAll();
     	model.addAttribute("executedwork", executedwork);
 		return "executedwork";
 	}
@@ -52,44 +60,45 @@ public class ExecutedWorkController {
 	public String executedworksearch(Model model)
 		{
 		//add locations and employee list for dinamic selection fields in the search form
-		List<Location> locations=LocationServiceImpl.selectAll();
+		List<Location> locations=locationService.selectAll();
 		model.addAttribute("locations", locations);
 
-		List<Employee> employees=EmployeeServiceImpl.selectAll();
-		model.addAttribute("employees",employees);
-
+		List<Employee> employees = employeeService.selectAll();
+		model.addAttribute("employees", employees);
 		return "executedworksearch";
 		}
 	
 	@GetMapping("/searchparams")
-	public String executedworksearchwithparams(@RequestParam(required=false) Integer employeeid,
-									 @RequestParam(required=false) Integer locationid,
-									 @RequestParam(required=false) String title,
-									 @RequestParam(required=false) String designation,
-									 @RequestParam @DateTimeFormat(pattern="yyyy-MM-d") Date searchstart,
-									 @RequestParam @DateTimeFormat(pattern="yyyy-MM-d") Date searchfinish,
-									 Model model) throws SearchRecordsException
+	public String executedworksearchwithparams(@RequestParam(required = false, defaultValue = "0") int employeeid,
+											   @RequestParam(required = false, defaultValue = "0") int locationid,
+											   @RequestParam(required = false, defaultValue = "") String title,
+											   @RequestParam(required = false, defaultValue = "") String designation,
+											   @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-d") Date searchstart,
+											   @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-d") Date searchfinish,
+											   Model model) throws SearchRecordsException
 	{
-		GregorianCalendar sstart=new GregorianCalendar();
-		sstart.setTime(searchstart);
 
-		GregorianCalendar sfinish=new GregorianCalendar();
-		sfinish.setTime(searchfinish);
-		sfinish.set(Calendar.HOUR_OF_DAY, 23);
-		sfinish.set(Calendar.MINUTE,59);
-		sfinish.set(Calendar.SECOND,59);
-		sfinish.set(Calendar.MILLISECOND,999);
+		GregorianCalendar sstart = new GregorianCalendar();
+		GregorianCalendar sfinish = new GregorianCalendar();
+		if (searchstart != null) {
+			sstart.setTime(searchstart);
+		}
+		if (searchfinish != null) {
+			sfinish.setTime(searchfinish);
+		}
 
-		Employee employee=null; 
-		Location location=null;
-		if (employeeid!=null) employee=EmployeeServiceImpl.findById(employeeid);
-		if(locationid!=null) location=LocationServiceImpl.findById(locationid);
+		Employee employee = null; 
+		Location location = null;
+		if (employeeid != 0) employee = employeeService.findById(employeeid);
+		if (locationid != 0) location = locationService.findById(locationid);
 
-		//dont forget add search with title and designation
-		List<ExecutedWork> executedwork=ExecutedWorkServiceImpl.searchByParams(title,
-									designation, employee, location, sstart, sfinish);
+		List<ExecutedWork> executedwork = executedWorkService.searchByParams(title,
+				designation, employee, location, sstart, sfinish);
+
+		if ( (executedwork.size() == 0) | (executedwork == null)) {
+			throw new SearchRecordsException("There are no results for the given parameters");
+		}
 		
-		if(executedwork.size()==0) throw new SearchRecordsException("There are no results for the given parameters");
 		model.addAttribute("executedwork", executedwork);
 
 		return "executedworksearch";
@@ -99,14 +108,14 @@ public class ExecutedWorkController {
 	public String createexecutedwork(Model model) {
 
 		//add locations list for dinamic selection field
-		List<Location> locations=LocationServiceImpl.selectAll();
+		List<Location> locations = locationService.selectAll();
 		model.addAttribute("locations", locations);
 
 		//add employees list for dinamic selection field
-		List<Employee> employees=EmployeeServiceImpl.selectAll();
+		List<Employee> employees = employeeService.selectAll();
 		model.addAttribute("employees",employees);
 
-		ExecutedWork ew=new ExecutedWork();
+		ExecutedWork ew = new ExecutedWork();
 		//add current time to display in fields
 		//start and finish time for easy recording in the field
 		ew.setDatestart(new GregorianCalendar());
@@ -121,11 +130,11 @@ public class ExecutedWorkController {
 			throws EditingRecordException {
 		
 		//search record by id
-		ExecutedWork selectedExecutedWork=ExecutedWorkServiceImpl.findById(selectedExecutedWorkId);
+		ExecutedWork selectedExecutedWork = executedWorkService.findById(selectedExecutedWorkId);
 		
 		//if another user created the record throws exception
-		if(userServiceImpl.searchUserByUsername(((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername()).getId()
-				!=selectedExecutedWork.getCreated_by()) 
+		if (userServiceImpl.searchUserByUsername(((UserDetails) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal()).getUsername()).getId() != selectedExecutedWork.getCreated_by()) 
 		{
 			throw new EditingRecordException("This record was created by another user");
 		}
@@ -134,39 +143,51 @@ public class ExecutedWorkController {
 		model.addAttribute("ExecutedWork", selectedExecutedWork);
 		
 		//add locations and employee list for dinamic selection fields
-		List<Location> locations=LocationServiceImpl.selectAll();
+		List<Location> locations = locationService.selectAll();
 		model.addAttribute("locations", locations);
 
-		List<Employee> employees=EmployeeServiceImpl.selectAll();
-		model.addAttribute("employees",employees);
+		List<Employee> employees = employeeService.selectAll();
+		model.addAttribute("employees", employees);
 		
 		return "executedworkedit";
 		}
 	
 	@PostMapping("/submit")
-	public RedirectView executedworksubmit(@ModelAttribute ExecutedWork executedwork,
-			@ModelAttribute Location Location,
-			@ModelAttribute Employee Employee,
-			Model model) {
+	public String executedworksubmit(@Valid @ModelAttribute ExecutedWork executedwork,
+											Errors errors,
+											@ModelAttribute Location Location,
+											@ModelAttribute Employee Employee,
+											Model model, HttpServletRequest request) 
+													throws EditingRecordException {
+		if (errors.hasErrors()) {
+			String er = "";
+			for (FieldError e : errors.getFieldErrors()) {
+				er += "Field: " + e.getField() + " error: " + e.getDefaultMessage() + "\n";		
+			}
+			throw new EditingRecordException("invalid data \n" + er);
+		}
 		
 		//entry in the fields converted location and employee onjects
 		executedwork.setLocation(Location);
 		executedwork.setEmployee(Employee);
 
-		if(executedwork.getId()==0) {
+		if (executedwork.getId() == 0) {
 			//entry user, who created record
-			UserDetails loggeduser=(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();	
+			UserDetails loggeduser = (UserDetails) SecurityContextHolder
+					.getContext().getAuthentication().getPrincipal();	
 			executedwork.setCreated_by(userServiceImpl.searchUserByUsername(loggeduser.getUsername()).getId());
-			ExecutedWorkServiceImpl.createExecutedWork(executedwork);
+			executedWorkService.createExecutedWork(executedwork);
 		}
-		else ExecutedWorkServiceImpl.updateExecutedWork(executedwork);
+		else {
+			executedWorkService.updateExecutedWork(executedwork);
+		}
 		
-		return new RedirectView("/executedwork");
+		return "redirect:/executedwork";
 	}
 	
 	@PostMapping("/delete")
-	public RedirectView executedworkdelete(@RequestParam(name="selectedExecutedWorkId") Integer executedworkid) {	
-		ExecutedWorkServiceImpl.deleteExecutedWork(ExecutedWorkServiceImpl.findById(executedworkid));
+	public RedirectView executedworkdelete(@RequestParam(name = "selectedExecutedWorkId") Integer executedworkid) {	
+		executedWorkService.deleteExecutedWork(executedWorkService.findById(executedworkid));
 		return new RedirectView("/executedwork");
 	}
 }

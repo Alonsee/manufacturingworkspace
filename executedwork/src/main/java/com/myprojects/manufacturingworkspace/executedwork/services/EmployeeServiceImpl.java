@@ -6,31 +6,37 @@ import com.myprojects.manufacturingworkspace.executedwork.repository.*;
 
 public class EmployeeServiceImpl implements EmployeeService{
 
-	private EmployeeRepository EmployeeRepositoryImpl;
+	private EmployeeRepository employeeRepository;
 	
 	public EmployeeServiceImpl(EmployeeRepository employeeRepositoryImpl) {
-		this.EmployeeRepositoryImpl=employeeRepositoryImpl;
+		this.employeeRepository = employeeRepositoryImpl;
 	}
+	
 	public EmployeeServiceImpl() {};
+	
 	@Override
 	public void createEmployee(Employee employee) {
-		EmployeeRepositoryImpl.createEmployee(employee);
+		employeeRepository.createEmployee(employee);
 	}
+	
 	@Override
 	public void updateEmployee(Employee employee) {
-		EmployeeRepositoryImpl.updateEmployee(employee);
+		employeeRepository.updateEmployee(employee);
 	}
+	
 	@Override
 	public void deleteEmployee(Employee employee) {
-		EmployeeRepositoryImpl.deleteEmployee(employee);
+		employeeRepository.deleteEmployee(employee);
 	}
+	
 	@Override
 	public Employee findById(int id) {
-		return EmployeeRepositoryImpl.findById(id);
+		return employeeRepository.findById(id);
 	}
+	
 	@Override
 	public List<Employee> selectAll() {
-		return EmployeeRepositoryImpl.selectAll();
+		return employeeRepository.selectAll();
 	}
 	
 }

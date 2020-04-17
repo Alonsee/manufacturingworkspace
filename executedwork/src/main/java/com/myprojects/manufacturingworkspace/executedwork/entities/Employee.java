@@ -15,17 +15,24 @@ public class Employee {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private int employee_id;
 
-	@OneToMany(mappedBy="employee",cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(mappedBy = "employee", cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<ExecutedWork> executedwork;
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="location_id", insertable = true, updatable = true)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "location_id", insertable = true, updatable = true)
 	private Location location;
 
 	public Employee() {}
+	
+	@Override
+	public String toString() {
+		return "id: " + employee_id + " firstname: " + firstname + " lastname: "
+	        + lastname + " location id: " + location.getLocation_id() 
+	        + " location name " + location.getName();
+	}
 	
 	public int getEmployee_id() {
 		return employee_id;
@@ -67,8 +74,4 @@ public class Employee {
 		this.location = location;
 	}
 	
-	@Override
-	public String toString() {
-		return "id: "+employee_id+" firstname: "+firstname+" lastname: "+lastname+" location id: "+location.getLocation_id()+" location name "+location.getName();
-	}
 }

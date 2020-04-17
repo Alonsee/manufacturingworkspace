@@ -5,16 +5,16 @@ import com.myprojects.manufacturingworkspace.executedwork.entities.Employee;
 import com.myprojects.manufacturingworkspace.executedwork.services.EmployeeService;
 
 //converter from employee id to employee
-public class EmployeeConverter implements Converter<String,Employee>  {
+public class EmployeeConverter implements Converter<String, Employee>  {
 	
-	EmployeeService EmployeeServiceImpl;
+	private EmployeeService employeeService;
 	
 	public EmployeeConverter(EmployeeService employeeService){
-		this.EmployeeServiceImpl=employeeService;
+		this.employeeService = employeeService;
 	}
 	
 	public Employee convert(String id) {
-		Employee employee=EmployeeServiceImpl.findById(Integer.parseInt(id));
+		Employee employee = employeeService.findById(Integer.parseInt(id));
 		return employee;
 	}
 	

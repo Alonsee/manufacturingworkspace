@@ -4,16 +4,30 @@ import javax.persistence.*;
 
 //entity object for users
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
 	private String username;
 	private String userpassword;
 	private String userrole;
+	
+	protected User() {};
+	
+	public User(String username, String userpassword) {
+		this.username = username;
+		this.userpassword = userpassword;
+	}
+	
+	public User(String username, String userpassword, String userrole, int id) {
+		this.username = username;
+		this.userpassword = userpassword;
+		this.userrole = userrole;
+		this.id = id;
+	}
 	
 	public String getUsername() {
 		return username;
@@ -47,17 +61,4 @@ public class User {
 		this.userrole = userrole;
 	}
 	
-	protected User() {};
-	
-	public User(String username, String userpassword) {
-		this.username=username;
-		this.userpassword=userpassword;
-	}
-	
-	public User(String username, String userpassword,String userrole,int id) {
-		this.username=username;
-		this.userpassword=userpassword;
-		this.userrole=userrole;
-		this.id=id;
-	}
 }

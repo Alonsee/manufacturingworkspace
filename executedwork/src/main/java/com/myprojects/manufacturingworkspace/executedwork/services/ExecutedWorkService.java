@@ -12,10 +12,7 @@ public interface ExecutedWorkService {
 	public void updateExecutedWork(ExecutedWork ew);
 	public void deleteExecutedWork(ExecutedWork ew);
 	public List<ExecutedWork> selectAll();
-	public List<ExecutedWork> findByLocationIdAndTime(Location location, GregorianCalendar datestart, GregorianCalendar datefinish);
-	public List<ExecutedWork> findByEmployeeIdAndTime(Employee employee, GregorianCalendar datestart, GregorianCalendar datefinish);
 	public ExecutedWork findById(int id);
-	public List<ExecutedWork> searchByParams(String title, String designation,Employee employee,
-												Location location,GregorianCalendar searchstart,
-												GregorianCalendar searchfinish);
+	public List<ExecutedWork> searchByParams(String title, String designation, Employee employee, 
+			Location location, GregorianCalendar searchstart, GregorianCalendar searchfinish);
 }

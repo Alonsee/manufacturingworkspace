@@ -11,8 +11,12 @@ public interface ExecutedWorkRepository {
 	void createExecutedWork(ExecutedWork executedwork);
 	void updateExecutedWork(ExecutedWork executedwork);
 	void deleteExecutedWork(ExecutedWork executedwork);
-	public List<ExecutedWork> findByLocationIdAndTime(Location location, GregorianCalendar datestart, GregorianCalendar datefinish);
-	public List<ExecutedWork> findByEmployeeIdAndTime(Employee employee, GregorianCalendar datestart, GregorianCalendar datefinish);
+	public List<ExecutedWork> findByLocationIdAndTime(Location location, 
+			GregorianCalendar datestart, GregorianCalendar datefinish);
+	public List<ExecutedWork> findByEmployeeIdAndTime(Employee employee, 
+			GregorianCalendar datestart, GregorianCalendar datefinish);
 	public List<ExecutedWork> selectAll();
 	public ExecutedWork findById(int id);
+	public List<ExecutedWork> findByTitle(String title);
+	public List<ExecutedWork> findByDesignation(String designation);
 }

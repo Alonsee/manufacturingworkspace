@@ -10,9 +10,9 @@ import com.myprojects.manufacturingworkspace.webmodel.repository.UserRepositoryI
 public class UserServiceImpl implements UserService {
 	
 	@Autowired
-	UserRepositoryImpl userRepositoryImpl;
+	private UserRepositoryImpl userRepository;
 	
 	public User searchUserByUsername(String username) {
-		return userRepositoryImpl.searchUserByUsername(username);
+		return userRepository.searchUserByUsername(username);
 	}
 }

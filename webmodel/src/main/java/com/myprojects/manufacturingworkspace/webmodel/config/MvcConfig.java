@@ -15,15 +15,15 @@ import com.myprojects.manufacturingworkspace.executedwork.entities.LocationConve
 public class MvcConfig implements WebMvcConfigurer{
 
 	@Autowired
-	LocationConverter LocationConverter;
+	private LocationConverter locationConverter;
+	
 	@Autowired
-	EmployeeConverter EmployeeConverter;
+	private EmployeeConverter employeeConverter;
 
 	//path for css and js source
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		 		registry.addResourceHandler("/**")
-	            .addResourceLocations("classpath:/static/");
+		registry.addResourceHandler("/**") .addResourceLocations("classpath:/static/");
 	}
 
 	@Override
@@ -34,8 +34,8 @@ public class MvcConfig implements WebMvcConfigurer{
 	//add converters for employees and locations
     @Override
     public void addFormatters(FormatterRegistry registry) {
-    	registry.addConverter(EmployeeConverter);
-    	registry.addConverter(LocationConverter); 
+    	registry.addConverter(employeeConverter);
+    	registry.addConverter(locationConverter); 
     }
 
 }

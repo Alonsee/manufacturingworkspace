@@ -6,32 +6,36 @@ import com.myprojects.manufacturingworkspace.executedwork.repository.LocationRep
 
 public class LocationServiceImpl implements LocationService {
 	
-	private LocationRepository LocationRepositoryImpl;
+	private LocationRepository locationRepository;
 	
 	public LocationServiceImpl(LocationRepository locationRepository) {
-		this.LocationRepositoryImpl=locationRepository;
+		this.locationRepository = locationRepository;
 	}
 	
 	public LocationServiceImpl() {};
 	
 	@Override
 	public void createLocation(Location location) {
-		LocationRepositoryImpl.createLocation(location);
+		locationRepository.createLocation(location);
 	}
+	
 	@Override
 	public void updateLocation(Location location) {
-		LocationRepositoryImpl.updateLocation(location);
+		locationRepository.updateLocation(location);
 	}
+	
 	@Override
 	public void deleteLocation(Location location) {
-		LocationRepositoryImpl.deleteLocation(location);
+		locationRepository.deleteLocation(location);
 	}
+	
 	@Override
 	public Location findById(int id) {
-		return LocationRepositoryImpl.findById(id);
+		return locationRepository.findById(id);
 	}
+	
 	@Override
 	public List<Location> selectAll() {
-		return LocationRepositoryImpl.selectAll();
+		return locationRepository.selectAll();
 	}
 }

@@ -9,12 +9,12 @@ import javax.persistence.*;
 @Entity
 @Table(name="locations")
 public class Location {
-	@Column(name="name")
+	@Column(name = "name")
 	private String name;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private int location_id;
 	
 	public int getLocation_id() {
@@ -23,16 +23,21 @@ public class Location {
 	public void setLocation_id(int location_id) {
 		this.location_id = location_id;
 	}
-	@OneToMany(mappedBy="location",cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Employee> employees;
 	
-	@OneToMany(mappedBy="location",cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(mappedBy="location", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ExecutedWork> executedwork;
 	
 	public Location() {};
 	
+	@Override
+	public String toString() {
+		return "location id: " + location_id + " location name: " + name;
+	}
+	
 	public Location(String name) {
-		this.name=name;
+		this.name = name;
 	}
 
 	public String getName() {
@@ -60,8 +65,4 @@ public class Location {
 		this.executedwork = executedwork;
 	}
 	
-	@Override
-	public String toString() {
-		return "location id: "+location_id+" location name: "+name;
-	}
 }
