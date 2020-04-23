@@ -34,6 +34,7 @@ public class ExecutedWorkRepositoryImpl implements ExecutedWorkRepository {
 		session.close();
 		
 	}
+	
 	@Override
 	public void updateExecutedWork(ExecutedWork executedwork) {
 		Session session = sessionFactory.openSession();
@@ -42,6 +43,7 @@ public class ExecutedWorkRepositoryImpl implements ExecutedWorkRepository {
 		tr.commit();
 		session.close();
 	}
+	
 	@Override
 	public void deleteExecutedWork(ExecutedWork executedwork) {
 		Session session = sessionFactory.openSession();
@@ -50,6 +52,7 @@ public class ExecutedWorkRepositoryImpl implements ExecutedWorkRepository {
 		tr.commit();
 		session.close();
 	}
+	
 	@Override
 	public List<ExecutedWork> findByLocationIdAndTime(Location location, 
 			GregorianCalendar datestart, GregorianCalendar datefinish) {
@@ -64,6 +67,7 @@ public class ExecutedWorkRepositoryImpl implements ExecutedWorkRepository {
 		session.close();
 		return ew;
 	}
+	
 	@Override
 	public List<ExecutedWork> findByEmployeeIdAndTime(Employee employee, 
 			GregorianCalendar datestart, GregorianCalendar datefinish) {
@@ -78,6 +82,7 @@ public class ExecutedWorkRepositoryImpl implements ExecutedWorkRepository {
 		session.close();
 		return ew;
 	}
+	
 	@Override
 	public List<ExecutedWork> selectAll() {
 		Session session = sessionFactory.openSession();
@@ -88,6 +93,7 @@ public class ExecutedWorkRepositoryImpl implements ExecutedWorkRepository {
 		session.close();
 		return ew;
 	}
+	
 	@Override
 	public ExecutedWork findById(int id) {
 		Session session = sessionFactory.openSession();

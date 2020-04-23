@@ -1,15 +1,16 @@
 package com.myprojects.manufacturingworkspace.webmodel.config;
 
-import java.io.IOException;
-
-import java.util.Properties;
-
-import javax.sql.DataSource;
-
 import org.apache.commons.dbcp.BasicDataSource;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.web.filter.CharacterEncodingFilter;
+
+import javax.sql.DataSource;
+
+import java.io.IOException;
+import java.util.Properties;
 
 @Configuration
 public class BeanConfig {
@@ -49,4 +50,5 @@ public class BeanConfig {
             }
         };
     }
+    
 }
